@@ -44,10 +44,23 @@ int main(){
 	return 0;
 }
 void initialize(double *sol){
-  //implementar conforme slide
+  for(int i=0; i<dimension; i++)
+    sol[i] = min + ((double)rand()/RAND_MAX) * (max - min);
 }
 void tweak(double *sol){
   //implementar conforme slide
+  double p = 1.0;
+  double r = 0.5;
+
+  for(int i=0; i<dimension; i++){
+    if(p >= ((double)rand()/RAND_MAX)){
+      double n;
+      do {
+        n = -r + ((double)rand()/RAND_MAX) * (2*r);
+      } while (min <= sol[i]+n || sol[i]+n <= max);
+      sol[i] += n;
+    }
+  }
 }
 
 //adapted from jmetal
