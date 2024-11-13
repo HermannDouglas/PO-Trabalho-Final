@@ -55,37 +55,29 @@ double sol[dimension];
   return 0;
 }
 
-void hill_climbing(double *sol){
-  int i = 0;
-  double *vet_copy = (double *)malloc(dimension * sizeof(double));
-  memcpy(vet_copy, sol, dimension * sizeof(double));
-  tweak(vet_copy);
-  // printf("\n(0)Fitness de sol : %f\n",fitness(sol));
-  // printf("\n(0)Fitness de vet_copy : %f\n",fitness(vet_copy));
+void hill_climbing(double *sol) {
+    int i = 0;
+    double *vet_copy = (double *)malloc(dimension * sizeof(double));
+    memcpy(vet_copy, sol, dimension * sizeof(double));
+    tweak(vet_copy);
 
-  while(i < 5){
-    if(fitness(vet_copy) < fitness(sol)){
-      memcpy(sol, vet_copy, dimension * sizeof(double));
-      // printf("\ni:  (%d)", i+1);
-      // printf("Novo fitness : %f\n", fitness(vet_copy));
-      tweak(vet_copy);
-      i++;
-    }else{
-      tweak(vet_copy);
+    while (i < 5) {
+        if (fitness(vet_copy) < fitness(sol)) {
+            memcpy(sol, vet_copy, dimension * sizeof(double));
+            tweak(vet_copy);
+            i++;
+        } else {
+            tweak(vet_copy);
+        }
     }
-  }
-  free(sol);
-  free(vet_copy);
-  // printf("Vetor original:\n");
-  // for(int i= 0; i< dimension; i++){
-  //   printf("%f ", sol[i]);
-  // }
 
-  printf("\nNovo vetor sol:\n");
-  // tweak(vet_copy);
-  for(i= 0; i< dimension; i++){
-    printf("%f ", fitness(sol));
-  }
+    free(vet_copy);
+
+    printf("\nNovo vetor sol:\n");
+    for (i = 0; i < dimension; i++) {
+        printf("%f ", sol[i]);
+    }
+    printf("\n");
 }
 
 void simul_annealing(double *sol){
