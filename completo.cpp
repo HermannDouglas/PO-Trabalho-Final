@@ -80,36 +80,37 @@ void hill_climbing(double *sol) {
     printf("\n");
 }
 
-void simul_annealing(double *sol){
-  double t = 0.95;
-  double *vet_best = (double *)malloc(dimension * sizeof(double));
-  double *vet_copy = (double *)malloc(dimension * sizeof(double));
+void simul_annealing(double *sol) {
+    double t = 1.0; // Inicializar com uma temperatura maior
+    double cooling_rate = 0.95; // Taxa de resfriamento
+    double *vet_best = (double *)malloc(dimension * sizeof(double));
+    double *vet_copy = (double *)malloc(dimension * sizeof(double));
 
-  memcpy(vet_best, sol, dimension * sizeof(double));
+    memcpy(vet_best, sol, dimension * sizeof(double));
 
-  while(t > 0.0){
-    memcpy(vet_copy, sol, dimension * sizeof(double));
-    tweak(vet_copy);
-    if(fitness(vet_copy) > fitness(sol) || ((double)rand()/RAND_MAX) < (exp(fitness(vet_copy) - fitness(sol))/t)){ // gerar um número aleatorio entre 0 a 1.
-      memcpy(sol, vet_copy, dimension * sizeof(double));
-      // printf("fitness: %f\n", fitness(sol));
+    while (t > 0.01) { // Continuar enquanto a temperatura for significativa
+        memcpy(vet_copy, sol, dimension * sizeof(double));
+        tweak(vet_copy);
+
+        double delta_fitness = fitness(vet_copy) - fitness(sol);
+        if (delta_fitness < 0 || ((double)rand() / RAND_MAX) < exp(-delta_fitness / t)) {
+            memcpy(sol, vet_copy, dimension * sizeof(double));
+        }
+
+        t *= cooling_rate; // Reduzir a temperatura
+
+        if (fitness(sol) < fitness(vet_best)) {
+            memcpy(vet_best, sol, dimension * sizeof(double));
+        }
     }
-    t = t- 0.09;
 
-    if(fitness(sol) > fitness(vet_best)){
-      // printf("fitness best: %f", fitness(vet_best));
-      memcpy(vet_best, sol, dimension * sizeof(double));
+    printf("\nO best final:");
+    for (int i = 0; i < dimension; i++) {
+        printf("%f ", vet_best[i]);
     }
 
-  }
-  // printf("O best final: %f",fitness(vet_best));
-  printf("\nO best final:");
-  for (int i = 0; i < dimension; i++) {
-    printf("%f ", vet_best[i]);
-  }
-  free(sol);
-  free(vet_copy); 
-  free(vet_best);
+    free(vet_copy);
+    free(vet_best);
 }
 
 void initialize(double *sol){
