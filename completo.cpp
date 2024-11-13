@@ -33,24 +33,21 @@ int main(){
 double sol[dimension];
     initialize(sol);
 
-    //  Hill Climbing
-      //implementar conforme slide
-
-    //  Simulated Annealing
-      //implementar conforme slide
-
-    printf("Print solution:\t");
-    for(int i=0;i<dimension;i++)
+    // Imprimir a solução inicial e seu fitness
+    printf("Solução inicial:\n");
+    for (int i = 0; i < dimension; i++) {
         printf("%f ", sol[i]);
-    printf("\nFitness: %f\n",fitness(sol));
+    }
+    printf("\nFitness:\t %f\n", fitness(sol));
     printf("\n------------------\n");
+
+    // Executar o algoritmo Hill Climbing
+    printf("\nExecutando Hill Climbing:\n");
     hill_climbing(sol);
+
+    // Executar o algoritmo Simulated Annealing
+    printf("\nExecutando Simulated Annealing:\n");
     simul_annealing(sol);
-    // # teste de tweak
-    // tweak(sol);
-    // for(int i=0;i<dimension;i++)
-    // printf("%f ", sol[i]);
-    // printf("\nFitness: %f",fitness(sol));
 
   return 0;
 }
@@ -73,7 +70,7 @@ void hill_climbing(double *sol) {
 
     free(vet_copy);
 
-    printf("\nNovo vetor sol:\n");
+    printf("\nSolução otimizada:\n");
     for (i = 0; i < dimension; i++) {
         printf("%f ", sol[i]);
     }
@@ -104,7 +101,7 @@ void simul_annealing(double *sol) {
         }
     }
 
-    printf("\nO best final:");
+    printf("\nMelhor solução encontrada:\n");
     for (int i = 0; i < dimension; i++) {
         printf("%f ", vet_best[i]);
     }
